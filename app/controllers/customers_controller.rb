@@ -65,6 +65,6 @@ class CustomersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def customer_params
-      params.fetch(:customer, {})
+      params.fetch(:customer, {}).permit(:company_id, :name)
     end
 end
