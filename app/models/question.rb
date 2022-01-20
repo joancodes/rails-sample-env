@@ -13,4 +13,5 @@
 #  index_questions_on_companies_id  (companies_id)
 #
 class Question < ApplicationRecord
+  belongs_to :company
 end
