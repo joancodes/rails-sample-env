@@ -3,6 +3,9 @@
 %table
   %thead
     %tr
+      %th ID
+      %th Company
+      %th Question
       %th
       %th
       %th
@@ -10,6 +13,9 @@
   %tbody
     - @questions.each do |question|
       %tr
+        %td= question.id
+        %td= question.company.name
+        %td= question.question
         %td= link_to 'Show', question
         %td= link_to 'Edit', edit_question_path(question)
         %td= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' }

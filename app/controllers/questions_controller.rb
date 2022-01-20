@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to question_url(@question), notice: "Question was successfully created." }
+        format.html { redirect_to questions_url, notice: "Question was successfully created." }
         format.json { render :show, status: :created, location: @question }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to question_url(@question), notice: "Question was successfully updated." }
+        format.html { redirect_to questions_url, notice: "Question was successfully updated." }
         format.json { render :show, status: :ok, location: @question }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +65,6 @@ class QuestionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def question_params
-      params.fetch(:question, {})
+      params.fetch(:question, {}).permit(:company_id, :question)
     end
 end
