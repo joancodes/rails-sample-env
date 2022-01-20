@@ -13,4 +13,5 @@
 #  index_customers_on_company_id  (company_id)
 #
 class Customer < ApplicationRecord
+  belongs_to :company
 end
