@@ -17,4 +17,7 @@
 #  index_surveys_on_user_id      (user_id)
 #
 class Survey < ApplicationRecord
+  belongs_to :company
+  belongs_to :user
+  belongs_to :customer
 end
