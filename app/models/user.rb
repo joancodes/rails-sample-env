@@ -17,4 +17,9 @@
 class User < ApplicationRecord
   belongs_to :company
   has_many :surveys
+
+  def set_api_credentials
+    self.api_key = SecureRandom.hex(32)
+    self.api_secret = SecureRandom.hex(32)
+  end
 end
