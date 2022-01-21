@@ -1,8 +1,13 @@
-%h1 Listing surveys
+%h1
+  Listing surveys
 
-%table
+%table{border: 1}
   %thead
     %tr
+      %th ID
+      %th note
+      %th Created at
+      %th Answers
       %th
       %th
       %th
@@ -10,6 +15,14 @@
   %tbody
     - @surveys.each do |survey|
       %tr
+        %td= survey.id
+        %td= survey.note
+        %td= survey.created_at
+        %td
+          - survey.answers.each do |answer|
+            %p= "Q. #{answer.question&.question || 'No question found'}"
+            %p= "A. #{answer.answer}"
+            %hr
         %td= link_to 'Show', survey
         %td= link_to 'Edit', edit_survey_path(survey)
         %td= link_to 'Destroy', survey, method: :delete, data: { confirm: 'Are you sure?' }
