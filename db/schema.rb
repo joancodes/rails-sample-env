@@ -27,11 +27,11 @@ ActiveRecord::Schema.define(version: 2022_01_20_084356) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.integer "companies_id"
+    t.integer "company_id"
     t.string "question", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["companies_id"], name: "index_questions_on_companies_id"
+    t.index ["company_id"], name: "index_questions_on_company_id"
   end
 
   create_table "users", force: :cascade do |t|
