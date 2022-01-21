@@ -1,0 +1,28 @@
+= form_for @user do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - @user.errors.full_messages.each do |message|
+          %li= message
+
+  %table
+    %tr
+      %th
+        Company
+      %td= f.select :company_id, Company.all.map { |c| [c.name, c.id] }
+    %tr
+      %th
+        Name
+      %td= f.text_field :name
+    %tr
+      %th
+        API key
+      %td= f.text_field :api_key
+    %tr
+      %th
+        API secret
+      %td= f.text_field :api_secret
+
+  .actions
+    = f.submit 'Save'

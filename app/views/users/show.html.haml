@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%table
+  %tr
+    %th
+      Company
+    %td= @user.company.name
+  %tr
+    %th
+      Name
+    %td= @user.name
+
+= link_to 'Edit', edit_user_path(@user)
+\|
+= link_to 'Back', users_path
