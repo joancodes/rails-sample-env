@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :answers
   resources :surveys
   resources :questions
   resources :customers
