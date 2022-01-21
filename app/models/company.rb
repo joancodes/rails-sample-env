@@ -8,8 +8,8 @@
 #  updated_at :datetime         not null
 #
 class Company < ApplicationRecord
-  has_many :users
-  has_many :customers
-  has_many :questions
-  has_many :surveys
+  has_many :users, dependent: :destroy
+  has_many :customers, dependent: :destroy
+  has_many :questions, dependent: :destroy
+  has_many :surveys, dependent: :destroy
 end
