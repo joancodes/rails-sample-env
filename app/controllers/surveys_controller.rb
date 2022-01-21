@@ -3,7 +3,11 @@ class SurveysController < ApplicationController
 
   # GET /surveys or /surveys.json
   def index
-    @surveys = Survey.all
+    @surveys = if current_company
+      current_company.surveys.all
+    else
+      Survey.all
+    end
   end
 
   # GET /surveys/1 or /surveys/1.json

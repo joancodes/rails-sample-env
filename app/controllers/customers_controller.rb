@@ -3,7 +3,11 @@ class CustomersController < ApplicationController
 
   # GET /customers or /customers.json
   def index
-    @customers = Customer.all
+    @customers = if current_company
+      current_company.customers.all
+    else
+      Customer.all
+    end
   end
 
   # GET /customers/1 or /customers/1.json

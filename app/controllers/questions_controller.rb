@@ -3,7 +3,11 @@ class QuestionsController < ApplicationController
 
   # GET /questions or /questions.json
   def index
-    @questions = Question.all
+    @questions = if current_company
+      current_company.questions.all
+    else
+      Question.all
+    end
   end
 
   # GET /questions/1 or /questions/1.json
