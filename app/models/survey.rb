@@ -20,4 +20,5 @@ class Survey < ApplicationRecord
   belongs_to :company
   belongs_to :user
   belongs_to :customer
+  has_many :answers
 end
