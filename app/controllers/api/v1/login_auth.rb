@@ -11,12 +11,12 @@ module Api::V1::LoginAuth
     request.headers["Authorization"]&.split&.last
   end
 
-  def decode_jwt token
+  def decode_jwt(token)
     JWT.decode token, token_secret_signature_key, true, { algorithm: 'HS256' }
   end
 
-  def generate_jwt payload
-    exp_payload = { data: payload,  exp: Time.now.to_i + JWT_EXPIRATION_TIME }
+  def generate_jwt(payload)
+    exp_payload = { data: payload, exp: Time.now.to_i + JWT_EXPIRATION_TIME }
     JWT.encode exp_payload, token_secret_signature_key, 'HS256'
   end
 end
