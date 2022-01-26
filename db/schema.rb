@@ -28,12 +28,12 @@ ActiveRecord::Schema.define(version: 2022_01_26_082536) do
     t.string "path", default: "", null: false
     t.string "controller", default: "", null: false
     t.string "action", default: "", null: false
-    t.json "request_body", default: {}, null: false
+    t.json "request_body", default: "\"\\\"\\\\\\\"{}\\\\\\\"\\\"\"", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "method", default: "", null: false
     t.integer "status", default: 0
-    t.string "limti_status", default: "none", null: false
+    t.string "limit_status", default: "none", null: false
     t.index ["company_id"], name: "index_api_request_logs_on_company_id"
     t.index ["created_at"], name: "index_api_request_logs_on_created_at"
     t.index ["user_id"], name: "index_api_request_logs_on_user_id"
