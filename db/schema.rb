@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_031549) do
+ActiveRecord::Schema.define(version: 2022_01_26_072005) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "survey_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2022_01_21_031549) do
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "daily_request_limit_api", default: 100
   end
 
   create_table "customers", force: :cascade do |t|
