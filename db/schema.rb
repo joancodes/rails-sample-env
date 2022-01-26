@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_073644) do
+ActiveRecord::Schema.define(version: 2022_01_26_081058) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "survey_id"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_073644) do
     t.json "request_body", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "method", default: "", null: false
     t.index ["company_id"], name: "index_api_request_logs_on_company_id"
     t.index ["created_at"], name: "index_api_request_logs_on_created_at"
     t.index ["user_id"], name: "index_api_request_logs_on_user_id"

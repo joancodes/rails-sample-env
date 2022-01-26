@@ -5,6 +5,7 @@
 #  id           :integer          not null, primary key
 #  action       :string           default(""), not null
 #  controller   :string           default(""), not null
+#  method       :string           default(""), not null
 #  path         :string           default(""), not null
 #  request_body :json             not null
 #  created_at   :datetime         not null
