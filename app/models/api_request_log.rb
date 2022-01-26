@@ -15,6 +15,7 @@
 # Indexes
 #
 #  index_api_request_logs_on_company_id  (company_id)
+#  index_api_request_logs_on_created_at  (created_at)
 #  index_api_request_logs_on_user_id     (user_id)
 #
 class ApiRequestLog < ApplicationRecord
