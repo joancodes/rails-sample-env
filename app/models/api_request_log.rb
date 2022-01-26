@@ -5,9 +5,11 @@
 #  id           :integer          not null, primary key
 #  action       :string           default(""), not null
 #  controller   :string           default(""), not null
+#  limti_status :string           default("none"), not null
 #  method       :string           default(""), not null
 #  path         :string           default(""), not null
 #  request_body :json             not null
+#  status       :integer          default(0)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  company_id   :integer
