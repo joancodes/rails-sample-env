@@ -20,6 +20,7 @@ class Api::V1::ApiController < ApplicationController
       token = extract_token
       raise Unauthorized.new('login required') unless token
       @user_id = decode_jwt(token)[0]['data']['user']['id']
+      log_api_request
     rescue JWT::VerificationError => e
       logger.error e.message
       render json: { status: 401, message: e.message }, status: :unauthorized
@@ -30,6 +31,18 @@ class Api::V1::ApiController < ApplicationController
   end
 
   private
+  def log_api_request
+    ApiRequestLog.create(
+      company: current_company,
+      user: current_user,
+      action: action_name,
+      controller: controller_name,
+      path: request.path,
+      request_body: request.raw_post
+    )
+  end
+
+
   def current_user
     @current_user ||= User.find(@user_id) if @user_id.present?
   end
