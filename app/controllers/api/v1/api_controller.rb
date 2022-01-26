@@ -20,6 +20,9 @@ class Api::V1::ApiController < ApplicationController
       token = extract_token
       raise Unauthorized.new('login required') unless token
       @user_id = decode_jwt(token)[0]['data']['user']['id']
+    rescue JWT::VerificationError => e
+      logger.error e.message
+      render json: { status: 401, message: e.message }, status: :unauthorized
     rescue JWT::ExpiredSignature => e
       logger.error e.message
       render json: { status: 401, message: e.message }, status: :unauthorized
