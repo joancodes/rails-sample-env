@@ -35,9 +35,10 @@ class Api::V1::ApiController < ApplicationController
     ApiRequestLog.create(
       company: current_company,
       user: current_user,
+      path: request.path,
+      method: request.method,
       action: action_name,
       controller: controller_name,
-      path: request.path,
       request_body: request.raw_post
     )
   end
