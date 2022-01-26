@@ -31,6 +31,7 @@ class Api::V1::ApiController < ApplicationController
   end
 
   private
+
   def log_api_request
     ApiRequestLog.create(
       company: current_company,
@@ -42,7 +43,6 @@ class Api::V1::ApiController < ApplicationController
       request_body: request.raw_post
     )
   end
-
 
   def current_user
     @current_user ||= User.find(@user_id) if @user_id.present?
