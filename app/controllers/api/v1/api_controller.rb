@@ -33,7 +33,7 @@ class Api::V1::ApiController < ApplicationController
 
   private
   def check_api_rate_limit
-    if current_company.api_request_logs.where(created_at: Time.zone.now.all_day).count > 100 # current_company.daily_request_limit_api
+    if current_company.api_request_logs.where(created_at: Time.zone.now.all_day).count > 1000  # current_company.daily_request_limit_api
       @limit_status = 'daily limit exceeded'
       render json: { status: 429, message: 'API request limit exceeded' }, status: :too_many_requests
       create_api_request_log
@@ -46,19 +46,23 @@ class Api::V1::ApiController < ApplicationController
   end
 
   def bucket_available?(current_time: Time.zone.now)
+    gcra_settings = []
     current_company.gcra_settings.each do |gcra_setting|
       if current_time > gcra_setting.tat
-        gcra_setting.update(tat: current_time + gcra_setting.emission_interval) # 排出までの理論到達時間の更新
+        gcra_setting.tat = current_time + gcra_setting.emission_interval # 排出までの理論到達時間の更新
+        gcra_settings << gcra_setting
         next
       end
 
       if current_time + gcra_setting.max_process_time > gcra_setting.tat
-        gcra_setting.update(tat: gcra_setting.tat + gcra_setting.emission_interval) # 排出までの理論到達時間の更新
+        gcra_setting.tat = gcra_setting.tat + gcra_setting.emission_interval # 排出までの理論到達時間の更新
+        gcra_settings << gcra_setting
       else
         @limit_status = "GCRA limit exceeded: #{gcra_setting.name}"
         return false
       end
     end
+    gcra_settings.each(&:save)
     true
   end
 
