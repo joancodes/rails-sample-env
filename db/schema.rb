@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_082536) do
+ActiveRecord::Schema.define(version: 2022_01_27_065021) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "survey_id"
@@ -52,6 +52,17 @@ ActiveRecord::Schema.define(version: 2022_01_26_082536) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_customers_on_company_id"
+  end
+
+  create_table "gcra_settings", force: :cascade do |t|
+    t.integer "company_id"
+    t.string "name", default: "Limitatio in 10 mins", null: false
+    t.integer "bucket_size", default: 10, null: false
+    t.integer "emission_interval", default: 2, null: false
+    t.datetime "tat", default: "2000-01-01 00:00:00", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_gcra_settings_on_company_id"
   end
 
   create_table "questions", force: :cascade do |t|
