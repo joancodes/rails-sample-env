@@ -14,6 +14,7 @@ class Api::V1::ApiController < ApplicationController
 
   protect_from_forgery with: :null_session
   before_action :login_auth_token
+  before_action :check_api_rate_limit
   after_action :create_api_request_log
 
   def login_auth_token
@@ -31,6 +32,13 @@ class Api::V1::ApiController < ApplicationController
   end
 
   private
+  def check_api_rate_limit
+    if current_company.api_request_logs.where(created_at: Time.zone.now.all_day).count > 1 # current_company.daily_request_limit_api
+      @limit_status = 'daily limit exceeded'
+      render json: { status: 429, message: 'API request limit exceeded' }, status: :too_many_requests
+      create_api_request_log
+    end
+  end
 
   def create_api_request_log
     ApiRequestLog.create(
