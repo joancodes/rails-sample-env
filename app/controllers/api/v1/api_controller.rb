@@ -14,12 +14,17 @@ class Api::V1::ApiController < ApplicationController
 
   protect_from_forgery with: :null_session
   before_action :login_auth_token
+  before_action :check_api_rate_limit
+  after_action :create_api_request_log
 
   def login_auth_token
     begin
       token = extract_token
       raise Unauthorized.new('login required') unless token
       @user_id = decode_jwt(token)[0]['data']['user']['id']
+    rescue JWT::VerificationError => e
+      logger.error e.message
+      render json: { status: 401, message: e.message }, status: :unauthorized
     rescue JWT::ExpiredSignature => e
       logger.error e.message
       render json: { status: 401, message: e.message }, status: :unauthorized
@@ -27,6 +32,28 @@ class Api::V1::ApiController < ApplicationController
   end
 
   private
+  def check_api_rate_limit
+    if current_company.api_request_logs.where(created_at: Time.zone.now.all_day).count > 1 # current_company.daily_request_limit_api
+      @limit_status = 'daily limit exceeded'
+      render json: { status: 429, message: 'API request limit exceeded' }, status: :too_many_requests
+      create_api_request_log
+    end
+  end
+
+  def create_api_request_log
+    ApiRequestLog.create(
+      company: current_company,
+      user: current_user,
+      path: request.path,
+      method: request.method,
+      action: action_name,
+      controller: controller_name,
+      request_body: request.raw_post,
+      status: response.status,
+      limit_status: @limit_status || 'none'
+    )
+  end
+
   def current_user
     @current_user ||= User.find(@user_id) if @user_id.present?
   end

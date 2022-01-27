@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_031549) do
+ActiveRecord::Schema.define(version: 2022_01_26_082536) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "survey_id"
@@ -22,10 +22,28 @@ ActiveRecord::Schema.define(version: 2022_01_21_031549) do
     t.index ["survey_id"], name: "index_answers_on_survey_id"
   end
 
+  create_table "api_request_logs", force: :cascade do |t|
+    t.integer "company_id"
+    t.integer "user_id"
+    t.string "path", default: "", null: false
+    t.string "controller", default: "", null: false
+    t.string "action", default: "", null: false
+    t.json "request_body", default: "\"\\\"\\\\\\\"{}\\\\\\\"\\\"\"", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "method", default: "", null: false
+    t.integer "status", default: 0
+    t.string "limit_status", default: "none", null: false
+    t.index ["company_id"], name: "index_api_request_logs_on_company_id"
+    t.index ["created_at"], name: "index_api_request_logs_on_created_at"
+    t.index ["user_id"], name: "index_api_request_logs_on_user_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "daily_request_limit_api", default: 100
   end
 
   create_table "customers", force: :cascade do |t|
