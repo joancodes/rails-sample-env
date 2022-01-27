@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :questions
     resources :customers
     resources :users
+    resources :gcra_settings
   end
 
   resources :answers
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
   resources :questions
   resources :customers
   resources :users
+  resources :gcra_settings
 
   root to: 'companies#index'
 end
