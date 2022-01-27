@@ -9,6 +9,7 @@
 #  updated_at              :datetime         not null
 #
 class Company < ApplicationRecord
+  has_many :gcra_settings, dependent: :destroy
   has_many :api_request_logs, dependent: :destroy
   has_many :users, dependent: :destroy
   has_many :customers, dependent: :destroy
