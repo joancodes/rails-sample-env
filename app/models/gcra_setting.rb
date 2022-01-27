@@ -17,4 +17,8 @@
 #
 class GcraSetting < ApplicationRecord
   belongs_to :company
+
+  def max_process_time
+    bucket_size * emission_interval # cellの排出までの最大時間
+  end
 end
