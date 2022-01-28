@@ -39,15 +39,20 @@ class Api::V1::ApiController < ApplicationController
       create_api_request_log
       return
     end
-    unless bucket_available?
+    result = buckets_status
+    unless result.dig(:status)
+      @limit_status = result&.dig(:description)
       render json: { status: 429, message: 'API request limit exceeded' }, status: :too_many_requests
       create_api_request_log
     end
   end
 
-  def bucket_available?(current_time: Time.zone.now)
+  def buckets_status(current_time: Time.zone.now)
+    success = true
+    gcra_setting_name = nil
     GcraSetting.transaction do
       current_company.gcra_settings.each do |gcra_setting|
+        gcra_setting_name = gcra_setting.name
         if current_time > gcra_setting.tat
           gcra_setting.update(tat: current_time + gcra_setting.emission_interval)
           next
@@ -56,17 +61,17 @@ class Api::V1::ApiController < ApplicationController
         if (current_time + gcra_setting.max_process_time > gcra_setting.tat)
           gcra_setting.update(tat: gcra_setting.tat + gcra_setting.emission_interval)
         else
+          success = false
           raise ActiveRecord::Rollback
         end
-      rescue ActiveRecord::Rollback
-        @limit_status = "GCRA limit exceeded: #{gcra_setting.name}"
-        return false
       end
     end
-    true
+    gcra_setting_name = 'OK' if success
+    { status: success, description: gcra_setting_name }
   end
 
   def create_api_request_log
+    p "limit status: #{@limit_status}"
     ApiRequestLog.create(
       company: current_company,
       user: current_user,
