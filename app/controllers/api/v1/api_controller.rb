@@ -46,23 +46,23 @@ class Api::V1::ApiController < ApplicationController
   end
 
   def bucket_available?(current_time: Time.zone.now)
-    gcra_settings = []
-    current_company.gcra_settings.each do |gcra_setting|
-      if current_time > gcra_setting.tat
-        gcra_setting.tat = current_time + gcra_setting.emission_interval # 排出までの理論到達時間の更新
-        gcra_settings << gcra_setting
-        next
-      end
+    GcraSetting.transaction do
+      current_company.gcra_settings.each do |gcra_setting|
+        if current_time > gcra_setting.tat
+          gcra_setting.update(tat: current_time + gcra_setting.emission_interval)
+          next
+        end
 
-      if current_time + gcra_setting.max_process_time > gcra_setting.tat
-        gcra_setting.tat = gcra_setting.tat + gcra_setting.emission_interval # 排出までの理論到達時間の更新
-        gcra_settings << gcra_setting
-      else
+        if (current_time + gcra_setting.max_process_time > gcra_setting.tat)
+          gcra_setting.update(tat: gcra_setting.tat + gcra_setting.emission_interval)
+        else
+          raise ActiveRecord::Rollback
+        end
+      rescue ActiveRecord::Rollback
         @limit_status = "GCRA limit exceeded: #{gcra_setting.name}"
         return false
       end
     end
-    gcra_settings.each(&:save)
     true
   end
 
