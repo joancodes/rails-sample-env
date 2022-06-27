@@ -17,10 +17,12 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @user.otp_secret = ROTP::Base32.random_base32
   end
 
   # GET /users/1/edit
   def edit
+    @user.otp_secret = ROTP::Base32.random_base32 if @user.otp_secret.blank?
   end
 
   # POST /users or /users.json
@@ -62,7 +64,8 @@ class UsersController < ApplicationController
   end
 
   def otp
-
+    @rotp = ROTP::TOTP.new(@user.otp_secret, issuer: "SENRI Ltd.")
+    @rotp.provisioning_uri("nori.setalab@google.com")
   end
 
   private

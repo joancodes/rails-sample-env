@@ -1,6 +1,4 @@
-%h1
-
-%p#notice= notice
+%h1 OTP
 
 %table
   %tbody
@@ -9,11 +7,15 @@
       %td= @user.otp_secret
 
     %tr
+      %td OTP URI
+      %td= @rotp.provisioning_uri("nori.setalab@google.com")
+
+    %tr
       %td QR code for OTP seed
       %td
 
     %tr
       %td OTP
-      %td
+      %td= @rotp.now
 
 
