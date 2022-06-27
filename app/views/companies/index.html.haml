@@ -5,6 +5,7 @@
     %tr
       %th ID
       %th Name
+      %th GCRA
       %th Users
       %th Customers
       %th Questions
@@ -15,6 +16,7 @@
       %tr
         %td= company.id
         %td= company.name
+        %td= link_to company.gcra_settings.count, company_gcra_settings_path(company)
         %td= link_to company.users.count, company_users_path(company)
         %td= link_to company.customers.count, company_customers_path(company)
         %td= link_to company.questions.count, company_questions_path(company)

@@ -13,10 +13,22 @@ def create_dummy_companies(number: 3)
 end
 
 def create_dummy_data(company:)
+  create_gcra_setting(company: company)
   create_users(company: company)
   create_customers(company: company)
   create_questions(company: company)
   create_surveys(company: company)
+end
+
+def create_gcra_setting(company:, number: 1)
+  (number - company.gcra_settings.count).times do
+    company.gcra_settings.create(
+      name: '3 requests per 10 seconds',
+      bucket_size: 3, # 3 requesrs
+      emission_interval: 10, # seconds
+      tat: Time.zone.now
+    )
+  end
 end
 
 def create_users(company:, number: 3)
@@ -59,4 +71,4 @@ def create_surveys(company:, number: 20)
 end
 
 create_dummy_companies
-Company.all.each{ |company| create_dummy_data(company: company)}
+Company.all.each { |company| create_dummy_data(company: company) }

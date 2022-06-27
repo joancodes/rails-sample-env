@@ -1,0 +1,27 @@
+= form_for @gcra_setting do |f|
+  - if @gcra_setting.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@gcra_setting.errors.count, "error")} prohibited this gcra_setting from being saved:"
+      %ul
+        - @gcra_setting.errors.full_messages.each do |message|
+          %li= message
+  %table
+    %tr
+      %th
+        Company
+      %td= f.select :company_id, Company.all.map { |c| [c.name, c.id] }
+    %tr
+      %th
+        Name
+      %td= f.text_field :name
+    %tr
+      %th
+        Bucket Size
+      %td= f.number_field :bucket_size
+    %tr
+      %th
+        Emission Interval
+      %td= f.number_field :emission_interval
+
+  .actions
+    = f.submit 'Save'

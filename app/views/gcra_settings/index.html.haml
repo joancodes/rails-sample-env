@@ -1,0 +1,29 @@
+%h1 Listing gcra_settings
+
+%table
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th Bucket Size
+      %th Emission Interval
+      %th TAT - Theorical Arrival Time
+      %th
+      %th
+      %th
+
+  %tbody
+    - @gcra_settings.each do |gcra_setting|
+      %tr
+        %td= gcra_setting.id
+        %td= gcra_setting.name
+        %td= gcra_setting.bucket_size
+        %td= gcra_setting.emission_interval
+        %td= gcra_setting.tat
+        %td= link_to 'Show', gcra_setting
+        %td= link_to 'Edit', edit_gcra_setting_path(gcra_setting)
+        %td= link_to 'Destroy', gcra_setting, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Gcra setting', new_gcra_setting_path
