@@ -65,7 +65,10 @@ class UsersController < ApplicationController
 
   def otp
     @rotp = ROTP::TOTP.new(@user.otp_secret, issuer: "SENRI Ltd.")
-    @rotp.provisioning_uri("nori.setalab@google.com")
+    uri = @rotp.provisioning_uri("nori.setalab@google.com")
+    @qrcode = RQRCode::QRCode.new(uri).as_svg(
+      viewbox: true
+    )
   end
 
   private
