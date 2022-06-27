@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2022_06_27_074042) do
     t.string "path", default: "", null: false
     t.string "controller", default: "", null: false
     t.string "action", default: "", null: false
-    t.json "request_body", default: "\"\\\"\\\\\\\"{}\\\\\\\"\\\"\"", null: false
+    t.json "request_body", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "method", default: "", null: false
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2022_06_27_074042) do
     t.string "api_secret", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "top_secret", default: "", null: false
+    t.string "otp_secret", default: "", null: false
     t.index ["company_id"], name: "index_users_on_company_id"
   end
 
