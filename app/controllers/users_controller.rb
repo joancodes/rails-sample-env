@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy otp ]
+  before_action :set_user, only: %i[ show edit update destroy otp verify_totp ]
 
   # GET /users or /users.json
   def index
@@ -69,6 +69,15 @@ class UsersController < ApplicationController
     @qrcode = RQRCode::QRCode.new(uri).as_svg(
       viewbox: true
     )
+  end
+
+  def verify_totp
+    @rotp = ROTP::TOTP.new(@user.otp_secret, issuer: "SENRI Ltd.")
+    @message = if @rotp.now == params.dig(:user, :totp)
+      "OTP verified."
+    else
+      "Failed to verify"
+    end
   end
 
   private

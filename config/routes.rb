@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get :otp
+      post :verify_totp
     end
   end
   resources :gcra_settings
