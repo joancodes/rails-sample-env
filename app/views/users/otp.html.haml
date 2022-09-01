@@ -1,0 +1,27 @@
+%h1 OTP
+
+%table
+  %tbody
+    %tr
+      %td OTP seed
+      %td= @user.otp_secret
+
+    %tr
+      %td OTP URI
+      %td= @rotp.provisioning_uri("nori.setalab@google.com")
+
+    %tr
+      %td QR code for OTP seed
+      %td
+        = tag.svg(){@qrcode}
+    %tr
+      %td OTP
+      %td= @rotp.now
+
+%hr
+%h1 OTP verification
+#verification_result
+
+= form_with(model: @user, url: verify_totp_user_path, local: false, method: :post) do |form|
+  = form.text_field :totp
+  = form.submit 'Verify'
