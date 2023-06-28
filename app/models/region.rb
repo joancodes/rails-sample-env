@@ -15,6 +15,8 @@
 #  index_regions_on_parent_id   (parent_id)
 #
 class Region < ApplicationRecord
+  acts_as_tree order: 'id'
+
   belongs_to :company
   has_many :customers
 end
