@@ -17,7 +17,12 @@
         %td= customer.id
         %td= customer.company.id
         %td= customer.name
-        %td= customer.region&.name
+        %td
+          - if customer.region.present?
+            - ancestors = customer.region.ancestors
+            - ancestors.each do |ancestor|
+              = "#{ancestor.name} <- "
+            = "#{customer.region.name}"
         %td= link_to 'Edit', edit_customer_path(customer)
         %td= link_to 'Destroy', customer, method: :delete, data: { confirm: 'Are you sure?' }
 
