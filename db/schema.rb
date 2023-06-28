@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2023_06_28_065539) do
   create_table "regions", force: :cascade do |t|
     t.integer "company_id", null: false
     t.string "name", default: "", null: false
-    t.integer "parent_id", null: false
+    t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_regions_on_company_id"
