@@ -19,4 +19,8 @@ class Region < ApplicationRecord
 
   belongs_to :company
   has_many :customers
+
+  scope :parent_regions, -> { where(parent_id: nil).order(:id) }
+  scope :parent_regions_without_self, -> id { parent_regions.where.not(id: id) }
+  scope :sub_regions, -> { where.not(parent_id: nil).order(:parent_id) }
 end
