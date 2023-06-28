@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_065539) do
+ActiveRecord::Schema.define(version: 2023_06_28_095006) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "survey_id"
@@ -73,6 +73,14 @@ ActiveRecord::Schema.define(version: 2023_06_28_065539) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_questions_on_company_id"
+  end
+
+  create_table "region_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "region_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "region_desc_idx"
   end
 
   create_table "regions", force: :cascade do |t|
