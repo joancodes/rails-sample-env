@@ -7,7 +7,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  company_id :integer          not null
-#  parent_id  :integer          not null
+#  parent_id  :integer
 #
 # Indexes
 #

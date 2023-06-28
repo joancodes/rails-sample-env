@@ -3,7 +3,11 @@ class RegionsController < ApplicationController
 
   # GET /regions or /regions.json
   def index
-    @regions = Region.all
+     @regions = if current_company
+      current_company.regions.all
+    else
+      Region.all
+    end
   end
 
   # GET /regions/1 or /regions/1.json
@@ -25,7 +29,7 @@ class RegionsController < ApplicationController
 
     respond_to do |format|
       if @region.save
-        format.html { redirect_to region_url(@region), notice: "Region was successfully created." }
+        format.html { redirect_to regions_url, notice: "Region was successfully created." }
         format.json { render :show, status: :created, location: @region }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +42,7 @@ class RegionsController < ApplicationController
   def update
     respond_to do |format|
       if @region.update(region_params)
-        format.html { redirect_to region_url(@region), notice: "Region was successfully updated." }
+        format.html { redirect_to regions_url, notice: "Region was successfully updated." }
         format.json { render :show, status: :ok, location: @region }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +69,6 @@ class RegionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def region_params
-      params.fetch(:region, {})
+      params.fetch(:region, {}).permit(:company_id, :name, :parent_id)
     end
 end

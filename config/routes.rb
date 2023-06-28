@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :surveys
   resources :questions
   resources :customers
+  resources :regions
   resources :users do
     member do
       get :otp

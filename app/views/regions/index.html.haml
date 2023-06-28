@@ -3,14 +3,18 @@
 %table
   %thead
     %tr
-      %th
+      %th Company
+      %th Name
+      %th Parent
       %th
       %th
 
   %tbody
     - @regions.each do |region|
       %tr
-        %td= link_to 'Show', region
+        %td= region.company.name
+        %td= region.name
+        %td= region.parent_id
         %td= link_to 'Edit', edit_region_path(region)
         %td= link_to 'Destroy', region, method: :delete, data: { confirm: 'Are you sure?' }
 
