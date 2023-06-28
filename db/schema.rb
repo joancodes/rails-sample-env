@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_064830) do
+ActiveRecord::Schema.define(version: 2023_06_28_065539) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "survey_id"
@@ -51,7 +51,9 @@ ActiveRecord::Schema.define(version: 2023_06_28_064830) do
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "region_id"
     t.index ["company_id"], name: "index_customers_on_company_id"
+    t.index ["region_id"], name: "index_customers_on_region_id"
   end
 
   create_table "gcra_settings", force: :cascade do |t|

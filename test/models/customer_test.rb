@@ -7,10 +7,12 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  company_id :integer          not null
+#  region_id  :integer
 #
 # Indexes
 #
 #  index_customers_on_company_id  (company_id)
+#  index_customers_on_region_id   (region_id)
 #
 require 'test_helper'
 
