@@ -7,6 +7,7 @@
       %th Name
       %th GCRA
       %th Users
+      %th Regions
       %th Customers
       %th Questions
       %th Surveys
@@ -18,6 +19,7 @@
         %td= company.name
         %td= link_to company.gcra_settings.count, company_gcra_settings_path(company)
         %td= link_to company.users.count, company_users_path(company)
+        %td= link_to company.regions.count, company_regions_path(company)
         %td= link_to company.customers.count, company_customers_path(company)
         %td= link_to company.questions.count, company_questions_path(company)
         %td= link_to company.surveys.count, company_surveys_path(company)

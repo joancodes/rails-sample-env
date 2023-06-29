@@ -15,4 +15,5 @@ class Company < ApplicationRecord
   has_many :customers, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :surveys, dependent: :destroy
+  has_many :regions, dependent: :destroy
 end

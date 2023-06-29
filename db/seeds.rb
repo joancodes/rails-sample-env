@@ -18,6 +18,8 @@ def create_dummy_data(company:)
   create_customers(company: company)
   create_questions(company: company)
   create_surveys(company: company)
+  create_regions(company: company)
+  assign_customers_and_regions(company: company)
 end
 
 def create_gcra_setting(company:, number: 1)
@@ -39,7 +41,7 @@ def create_users(company:, number: 3)
   end
 end
 
-def create_customers(company:, number: 10)
+def create_customers(company:, number: 30)
   (number - company.customers.count).times do
     company.customers.create(name: Faker::Restaurant.name)
   end
@@ -52,7 +54,7 @@ def create_questions(company:, number: 3)
 end
 
 def create_surveys(company:, number: 20)
-  number.times do
+  (number - company.surveys.count).times do
     company.surveys.create(
       user: company.users.sample,
       customer: company.customers.sample,
@@ -67,6 +69,21 @@ def create_surveys(company:, number: 20)
         )
       end
     end
+  end
+end
+
+def create_regions(company:, number: 10)
+  (number - company.regions.count).times do
+    region = company.regions.create(
+      name: Faker::Address.city,
+    )
+    region.update(parent_id: company.regions.where(parent_id: nil).where.not(id: nil).sample) if rand > 0.3
+  end
+end
+
+def assign_customers_and_regions(company:)
+  company.customers.each do |customer|
+    customer.update(region_id: company.regions.sample.id) if rand > 0.2
   end
 end
 

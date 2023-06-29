@@ -1,0 +1,28 @@
+%h1 Listing regions
+
+%table
+  %thead
+    %tr
+      %th Company
+      %th Name
+      %th Parent
+      %th Sub-Region
+      %th
+      %th
+
+  %tbody
+    - @regions.each do |region|
+      %tr
+        %td= region.company.name
+        %td= region.name
+        %td= region.parent&.name
+        %td
+          - region.children.each do |child|
+            = child.name
+            %br
+        %td= link_to 'Edit', edit_region_path(region)
+        %td= link_to 'Destroy', region, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Region', new_region_path

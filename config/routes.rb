@@ -6,12 +6,14 @@ Rails.application.routes.draw do
     resources :customers
     resources :users
     resources :gcra_settings
+    resources :regions
   end
 
   resources :answers
   resources :surveys
   resources :questions
   resources :customers
+  resources :regions
   resources :users do
     member do
       get :otp
