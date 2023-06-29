@@ -8,6 +8,7 @@ class RegionsController < ApplicationController
     else
       Region.all
     end
+    @regions = @regions.includes(:company, :parent)
   end
 
   # GET /regions/1 or /regions/1.json

@@ -19,7 +19,7 @@
         Parent
       %td
         :ruby
-          regions = Region.where(parent_id: nil).where.not(id: @region.id)
+          regions = Region.where.not(id: @region.id)
         = f.select :parent_id, regions.map { |c| [c.name, c.id] }, include_blank: true
 
 
