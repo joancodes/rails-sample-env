@@ -14,6 +14,11 @@
 #  index_regions_on_company_id  (company_id)
 #  index_regions_on_parent_id   (parent_id)
 #
+# Foreign Keys
+#
+#  company_id  (company_id => companies.id)
+#  parent_id   (parent_id => regions.id)
+#
 class Region < ApplicationRecord
   has_closure_tree order: 'id'
 

@@ -14,6 +14,10 @@
 #  index_customers_on_company_id  (company_id)
 #  index_customers_on_region_id   (region_id)
 #
+# Foreign Keys
+#
+#  company_id  (company_id => companies.id)
+#
 require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
