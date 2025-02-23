@@ -14,6 +14,10 @@
 #  index_customers_on_company_id  (company_id)
 #  index_customers_on_region_id   (region_id)
 #
+# Foreign Keys
+#
+#  company_id  (company_id => companies.id)
+#
 class Customer < ApplicationRecord
   belongs_to :company
   belongs_to :region

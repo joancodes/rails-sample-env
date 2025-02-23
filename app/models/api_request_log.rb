@@ -21,6 +21,11 @@
 #  index_api_request_logs_on_created_at  (created_at)
 #  index_api_request_logs_on_user_id     (user_id)
 #
+# Foreign Keys
+#
+#  company_id  (company_id => companies.id)
+#  user_id     (user_id => users.id)
+#
 class ApiRequestLog < ApplicationRecord
   belongs_to :company, optional: true
   belongs_to :user, optional: true

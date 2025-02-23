@@ -14,6 +14,11 @@
 #  index_answers_on_question_id  (question_id)
 #  index_answers_on_survey_id    (survey_id)
 #
+# Foreign Keys
+#
+#  question_id  (question_id => questions.id)
+#  survey_id    (survey_id => surveys.id)
+#
 require 'test_helper'
 
 class AnswerTest < ActiveSupport::TestCase

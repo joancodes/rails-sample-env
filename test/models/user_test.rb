@@ -15,6 +15,10 @@
 #
 #  index_users_on_company_id  (company_id)
 #
+# Foreign Keys
+#
+#  company_id  (company_id => companies.id)
+#
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
