@@ -1,0 +1,23 @@
+%h1.text-2xl.font-bold.mb-4 Deal Details
+%p
+  %strong.font-bold Item:
+  = @deal.item.name
+%p
+  %strong.font-bold Price:
+  = number_to_currency(@deal.price)
+%p
+  %strong.font-bold Quantity:
+  = @deal.quantity
+%p
+  %strong.font-bold VAT Rate:
+  = @deal.vat_rate.rate
+%p
+  %strong.font-bold Total (Excl. VAT):
+  = number_to_currency(@deal.total_excl_vat)
+%p
+  %strong.font-bold Total (Incl. VAT):
+  = number_to_currency(@deal.total_incl_vat)
+%br/
+= link_to 'Edit', edit_company_transaction_deal_path(@sales_transaction.company, @sales_transaction, @deal), class: 'bg-yellow-500 text-white visited:text-white no-underline px-4 py-2 rounded hover:bg-yellow-700 mr-2'
+|
+= link_to 'Back', company_transaction_deals_path(@sales_transaction.company, @sales_transaction), class: 'bg-gray-500 text-white visited:text-white no-underline px-4 py-2 rounded hover:bg-gray-700'

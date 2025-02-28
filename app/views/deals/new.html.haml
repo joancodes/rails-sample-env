@@ -1,0 +1,4 @@
+%h1.text-2xl.font-bold.mb-4 New Deal
+= render 'form', deal: @deal
+%br/
+= link_to 'Back', company_transaction_path(@sales_transaction.company, @sales_transaction)
