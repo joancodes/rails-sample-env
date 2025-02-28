@@ -1,0 +1,30 @@
+%h1.text-2xl.font-bold.mb-4 Deals for Transaction ##{@sales_transaction.id}
+%table.w-full.border-collapse
+  %thead
+    %tr.bg-gray-200
+      %th.p-2.border ID
+      %th.p-2.border Item
+      %th.p-2.border Price
+      %th.p-2.border Quantity
+      %th.p-2.border VAT Rate
+      %th.p-2.border Total (Excl. VAT)
+      %th.p-2.border Total (Incl. VAT)
+      %th.p-2.border Actions
+  %tbody
+    - @deals.each do |deal|
+      %tr.hover:bg-gray-100
+        %td.p-2.border= deal.id
+        %td.p-2.border= deal.item.name
+        %td.p-2.border= number_to_currency(deal.price)
+        %td.p-2.border= deal.quantity
+        %td.p-2.border= deal.vat_rate.rate
+        %td.p-2.border= number_to_currency(deal.total_excl_vat)
+        %td.p-2.border= number_to_currency(deal.total_incl_vat)
+        %td.p-2.border
+          = link_to 'Show', company_transaction_deal_path(@sales_transaction.company, @sales_transaction, deal), class: 'text-blue-500 visited:text-blue-500 hover:text-blue-700 mr-2'
+          = link_to 'Edit', edit_company_transaction_deal_path(@sales_transaction.company, @sales_transaction, deal), class: 'text-yellow-500 visited:text-yellow-500 hover:text-green-700 mr-2'
+          = link_to 'Destroy', company_transaction_deal_path(@sales_transaction.company, @sales_transaction, deal), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-500 visited:text-red-500 hover:text-red-700'
+%br/
+= link_to 'New Deal', new_company_transaction_deal_path(@sales_transaction.company, @sales_transaction), class: 'bg-green-500 text-white visited:text-white no-underline hover:bg-green-700 py-2 px-4 rounded'
+|
+= link_to 'Back to Transaction', company_transaction_path(@sales_transaction.company, @sales_transaction), class: 'bg-gray-500 text-white visited:text-white no-underline px-4 py-2 rounded hover:bg-gray-700'

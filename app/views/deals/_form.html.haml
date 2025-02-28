@@ -1,0 +1,15 @@
+= form_with(model: [@sales_transaction.company, @sales_transaction, @deal], local: true, class: 'space-y-4') do |form|
+  .field
+    = form.label :item_id, 'Item', class: 'block text-sm font-medium text-gray-700'
+    = form.collection_select :item_id, @sales_transaction.company.items, :id, :name, { prompt: 'Select Item' }, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+  .field
+    = form.label :price, 'Price', class: 'block text-sm font-medium text-gray-700'
+    = form.number_field :price, step: 0.01, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+  .field
+    = form.label :quantity, 'Quantity', class: 'block text-sm font-medium text-gray-700'
+    = form.number_field :quantity, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+  .field
+    = form.label :vat_rate_id, 'VAT Rate', class: 'block text-sm font-medium text-gray-700'
+    = form.collection_select :vat_rate_id, VatRate.all, :id, :rate, { prompt: 'Select VAT Rate' }, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+  .actions
+    = form.submit class: 'bg-green-500 text-white visited:text-white px-4 py-2 rounded hover:bg-green-700'
