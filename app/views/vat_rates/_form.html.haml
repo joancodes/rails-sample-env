@@ -1,4 +1,12 @@
 = form_with(model: [@item.company, @item, @vat_rate], local: true, class: 'space-y-4') do |form|
+  - if @vat_rate.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@vat_rate.errors.count, "error")
+        prohibited this vat_rate from being saved:
+      %ul
+        - @vat_rate.errors.full_messages.each do |message|
+          %li= message
   .field
     = form.label :rate, class: 'block text-sm font-medium text-gray-700'
     = form.text_field :rate, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'

@@ -1,4 +1,12 @@
 = form_with(model: [@company, @transaction], local: true, class: 'space-y-4') do |form|
+  - if @transaction.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@transaction.errors.count, "error")
+        prohibited this transaction from being saved:
+      %ul
+        - @transaction.errors.full_messages.each do |message|
+          %li= message
   .field
     = form.label :user_id, 'User', class: 'block text-sm font-medium text-gray-700'
     = form.collection_select :user_id, @company.users, :id, :name, { prompt: 'Select User' }, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'

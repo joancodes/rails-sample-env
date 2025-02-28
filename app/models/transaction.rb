@@ -29,6 +29,7 @@ class Transaction < ApplicationRecord
   has_many :deals, foreign_key: 'transaction_id', dependent: :destroy
 
   validates :transaction_date, presence: true
+  validate :transaction_date_cannot_be_in_future
 
   # Calculate total amount excluding VAT
   def total_excl_vat
@@ -70,4 +71,12 @@ class Transaction < ApplicationRecord
       "SUM(deals.price * deals.quantity * (1 + COALESCE((SELECT rate FROM vat_rates WHERE vat_rates.item_id = items.id ORDER BY created_at DESC LIMIT 1), 0))) AS total_incl_vat"
     )
   }
+
+  private
+
+  def transaction_date_cannot_be_in_future
+    if transaction_date.present? && transaction_date > Date.today
+      errors.add(:transaction_date, "cannot be in the future")
+    end
+  end
 end
