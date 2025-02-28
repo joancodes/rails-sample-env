@@ -5,10 +5,16 @@ class TransactionsController < ApplicationController
   # GET /companies/:company_id/transactions or /companies/:company_id/transactions.json
   def index
      @transactions = @company.transactions.includes(:customer, :user)
+     @transactions = @company.transactions.includes(:customer, :user)
                                       .order(transaction_date: :desc)
                                       .by_transaction_date(parse_date(params[:transaction_date]))
                                       .by_customer(params[:customer_id])
-                                      .paginate_results(params[:page])
+                                      .paginate_results(params[:page]) unless request.format == 'csv'
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @transactions.to_csv, filename: "transactions-#{Date.today}.csv" }
+    end
   end
 
   # GET /companies/:company_id/transactions/summary
