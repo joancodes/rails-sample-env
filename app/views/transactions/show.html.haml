@@ -1,0 +1,49 @@
+%p#notice= notice
+%h1.text-2xl.font-bold Transaction Details
+%table.w-full.border-collapse.mb-6
+  %tr
+    %th.p-2.border Transaction ID
+    %td.p-2.border= @transaction.id
+  %tr
+    %th.p-2.border Customer
+    %td.p-2.border= @transaction.customer.name
+  %tr
+    %th.p-2.border User
+    %td.p-2.border= @transaction.user.name
+  %tr
+    %th.p-2.border Transaction Date
+    %td.p-2.border= @transaction.transaction_date
+  %tr
+    %th.p-2.border Total (Excl. VAT)
+    %td.p-2.border= number_to_currency(@transaction.total_excl_vat)
+  %tr
+    %th.p-2.border Total (Incl. VAT)
+    %td.p-2.border= number_to_currency(@transaction.total_incl_vat)
+
+%h2.text-xl.font-bold.mb-4 Deals in This Transaction
+- if @deals.any?
+  %table.w-full.border-collapse
+    %thead
+      %tr.bg-gray-200
+        %th.p-2.border Item
+        %th.p-2.border Quantity
+        %th.p-2.border Price
+        %th.p-2.border VAT Rate
+        %th.p-2.border Subtotal (Excl. VAT)
+        %th.p-2.border Total (Incl. VAT)
+    %tbody
+      - @deals.each do |deal|
+        %tr.hover:bg-gray-100
+          %td.p-2.border= deal.item.name
+          %td.p-2.border= deal.quantity
+          %td.p-2.border= number_to_currency(deal.price)
+          %td.p-2.border= "#{deal.vat_rate.rate}%"
+          %td.p-2.border= number_to_currency(deal.total_excl_vat)
+          %td.p-2.border= number_to_currency(deal.total_incl_vat)
+- else
+  %p No deals found for this transaction.
+
+%br/
+= link_to 'Edit', edit_company_transaction_path(@company, @transaction), class: 'bg-yellow-500 text-white visited:text-white no-underline px-4 py-2 rounded hover:bg-yellow-700 mr-2'
+|
+= link_to 'Back to Transactions', company_transactions_path(@company), class: 'bg-gray-500 text-white visited:text-white no-underline px-4 py-2 rounded hover:bg-gray-700'
