@@ -4,7 +4,11 @@ class TransactionsController < ApplicationController
 
   # GET /companies/:company_id/transactions or /companies/:company_id/transactions.json
   def index
-    @transactions = @company.transactions
+     @transactions = @company.transactions.includes(:customer, :user)
+                                      .order(transaction_date: :desc)
+                                      .by_transaction_date(parse_date(params[:transaction_date]))
+                                      .by_customer(params[:customer_id])
+                                      .paginate_results(params[:page])
   end
 
   # GET /companies/:company_id/transactions/1 or /companies/:company_id/transactions/1.json
@@ -72,5 +76,9 @@ class TransactionsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def transaction_params
     params.require(:transaction).permit(:user_id, :customer_id, :transaction_date)
+  end
+
+  def parse_date(date_string)
+    Date.parse(date_string) rescue nil
   end
 end

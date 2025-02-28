@@ -39,4 +39,19 @@ class Transaction < ApplicationRecord
   def total_incl_vat
     deals.sum(&:total_incl_vat)
   end
+
+  # Scope to filter by transaction date
+  scope :by_transaction_date, ->(date) {
+    where(transaction_date: date.beginning_of_day..date.end_of_day) if date.present?
+  }
+
+  # Scope to filter by customer
+  scope :by_customer, ->(customer_id) {
+    where(customer_id: customer_id) if customer_id.present?
+  }
+
+  # Scope to paginate results
+  scope :paginate_results, ->(page) {
+    page(page).per(10)
+  }
 end

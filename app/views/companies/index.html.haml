@@ -11,6 +11,7 @@
       %th Customers
       %th Questions
       %th Surveys
+      %th Transactions
       %th Actions
   %tbody
     - @companies.each do |company|
@@ -23,6 +24,7 @@
         %td= link_to company.customers.count, company_customers_path(company)
         %td= link_to company.questions.count, company_questions_path(company)
         %td= link_to company.surveys.count, company_surveys_path(company)
+        %td= link_to company.transactions.count, company_transactions_path(company)
         %td= link_to 'Show', company
         %td= link_to 'Edit', edit_company_path(company)
         %td= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
