@@ -1,0 +1,42 @@
+%p#notice= notice
+%h1.text-2xl.font-bold.mb-4 Transactions for #{@company.name}
+= link_to 'New Transaction', new_company_transaction_path(@company), class: 'bg-green-500 text-white visited:text-white no-underline hover:bg-green-700 py-2 px-4 rounded'
+
+%br/
+%br/
+= form_tag company_transactions_path(@company), method: :get, class: "mb-4" do |f|
+  .flex.space-x-4
+    .flex-1
+      = date_field_tag :transaction_date, params[:transaction_date], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+    .flex-1
+      = select_tag :customer_id, options_from_collection_for_select(@company.customers, :id, :name, params[:customer_id]), include_blank: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm", prompt: "Select Customer"
+    .self-end
+      = submit_tag "Filter", class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+
+%table.w-full.border-collapse
+  %thead
+    %tr.bg-gray-200
+      %th.p-2.border ID
+      %th.p-2.border User
+      %th.p-2.border Customer
+      %th.p-2.border Date
+      %th.p-2.border Total (Excl. VAT)
+      %th.p-2.border Total (Incl. VAT)
+      %th.p-2.border Actions
+  %tbody
+    - @transactions.each do |transaction|
+      %tr.hover:bg-gray-100
+        %td.p-2.border= transaction.id
+        %td.p-2.border= transaction.user.name
+        %td.p-2.border= transaction.customer.name
+        %td.p-2.border= transaction.transaction_date
+        %td.p-2.border= number_to_currency(transaction.total_excl_vat)
+        %td.p-2.border= number_to_currency(transaction.total_incl_vat)
+        %td.p-2.border
+          = link_to 'Show', company_transaction_path(@company, transaction), class: 'text-blue-500 visited:text-blue-500 hover:text-blue-700 mr-2'
+          = link_to 'Edit', edit_company_transaction_path(@company, transaction), class: 'text-yellow-500 visited:text-yellow-600 hover:text-yellow-700 mr-2'
+          = link_to 'Destroy', company_transaction_path(@company, transaction), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-500 visited:text-red-500 hover:text-red-700'
+
+= paginate @transactions
+
+= link_to 'Back', companies_path
