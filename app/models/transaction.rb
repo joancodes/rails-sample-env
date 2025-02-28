@@ -72,6 +72,30 @@ class Transaction < ApplicationRecord
     )
   }
 
+  def self.to_csv
+    attributes = {
+      id: "ID",
+      transaction_date: "Transaction Date",
+      customer_name: "Customer Name",
+      total_excl_vat: "Total (Excl. VAT)",
+      total_incl_vat: "Total (Incl. VAT)"
+    }
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes.values
+
+      all.includes(:customer).each do |transaction|
+        csv << [
+          transaction.id,
+          transaction.transaction_date,
+          transaction.customer.name, # Fetch the customer name
+          transaction.total_excl_vat,
+          transaction.total_incl_vat
+        ]
+      end
+    end
+  end
+
   private
 
   def transaction_date_cannot_be_in_future

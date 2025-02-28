@@ -1,6 +1,7 @@
 %p#notice= notice
 %h1.text-2xl.font-bold.mb-4 Transactions for #{@company.name}
 = link_to 'New Transaction', new_company_transaction_path(@company), class: 'bg-green-500 text-white visited:text-white no-underline hover:bg-green-700 py-2 px-4 rounded'
+= link_to 'Export as CSV', company_transactions_path(@company, format: :csv), class: 'bg-blue-500 text-white visited:text-white no-underline px-4 py-2 rounded hover:bg-blue-700'
 
 %br/
 %br/
