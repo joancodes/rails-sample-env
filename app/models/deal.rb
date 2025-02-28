@@ -29,7 +29,7 @@ class Deal < ApplicationRecord
   belongs_to :vat_rate
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }
-  validates :quantity, numericality: { greater_than: 0 }
+  validates :quantity, numericality: { greater_than_or_equal_to: 1, only_integer: true, message: 'must be at least 1' }
 
   # Calculate total amount excluding VAT for a deal
   def total_excl_vat
