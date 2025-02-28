@@ -33,9 +33,11 @@
         %td.p-2.border= number_to_currency(transaction.total_excl_vat)
         %td.p-2.border= number_to_currency(transaction.total_incl_vat)
         %td.p-2.border
-          = link_to 'Show', company_transaction_path(@company, transaction), class: 'text-blue-500 visited:text-blue-500 hover:text-blue-700 mr-2'
-          = link_to 'Edit', edit_company_transaction_path(@company, transaction), class: 'text-yellow-500 visited:text-yellow-600 hover:text-yellow-700 mr-2'
-          = link_to 'Destroy', company_transaction_path(@company, transaction), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-500 visited:text-red-500 hover:text-red-700'
+          %div.flex.items-center
+            = link_to 'View Transaction Summary', summary_company_transactions_path(@company), class: 'mr-2'
+            = link_to 'Show', company_transaction_path(@company, transaction), class: 'text-blue-500 visited:text-blue-500 hover:text-blue-700 mr-2'
+            = link_to 'Edit', edit_company_transaction_path(@company, transaction), class: 'text-yellow-500 visited:text-yellow-600 hover:text-yellow-700 mr-2'
+            = link_to 'Destroy', company_transaction_path(@company, transaction), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-red-500 visited:text-red-500 hover:text-red-700'
 
 = paginate @transactions
 

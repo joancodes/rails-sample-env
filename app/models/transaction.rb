@@ -54,4 +54,20 @@ class Transaction < ApplicationRecord
   scope :paginate_results, ->(page) {
     page(page).per(10)
   }
+
+  scope :summarize_by_customer_and_item, ->(start_date, end_date, tax_inclusive = false) {
+  start_date ||= 30.days.ago.to_date
+  end_date ||= Date.today
+
+  joins(:customer, deals: :item)
+    .joins("LEFT JOIN vat_rates ON vat_rates.item_id = items.id")
+    .where(transaction_date: start_date..end_date)
+    .group("customers.name, items.name")
+    .select(
+      "customers.name AS customer_name",
+      "items.name AS item_name",
+      "SUM(deals.price * deals.quantity) AS total_excl_vat",
+      "SUM(deals.price * deals.quantity * (1 + COALESCE((SELECT rate FROM vat_rates WHERE vat_rates.item_id = items.id ORDER BY created_at DESC LIMIT 1), 0))) AS total_incl_vat"
+    )
+  }
 end

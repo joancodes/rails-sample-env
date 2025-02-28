@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     end
     resources :transactions do
       resources :deals
+      collection do
+        get :summary # Route for the summary table
+      end
     end
   end
 

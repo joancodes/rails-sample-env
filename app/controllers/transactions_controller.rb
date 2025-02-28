@@ -11,6 +11,24 @@ class TransactionsController < ApplicationController
                                       .paginate_results(params[:page])
   end
 
+  # GET /companies/:company_id/transactions/summary
+  def summary
+    start_date, end_date = default_dates
+    tax_inclusive = params[:tax_inclusive] == "true"
+
+    # Fetch summarized data
+    summarized_data = @company.transactions
+                              .summarize_by_customer_and_item(start_date, end_date, tax_inclusive)
+
+    # Paginate the summarized data in memory
+    @summary = Kaminari.paginate_array(summarized_data).page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @summary }
+    end
+  end
+
   # GET /companies/:company_id/transactions/1 or /companies/:company_id/transactions/1.json
   def show
     @deals = @transaction.deals
@@ -80,5 +98,11 @@ class TransactionsController < ApplicationController
 
   def parse_date(date_string)
     Date.parse(date_string) rescue nil
+  end
+
+  def default_dates
+    start_date = parse_date(params[:start_date]) || 30.days.ago.to_date
+    end_date = parse_date(params[:end_date]) || Date.today
+    [start_date, end_date]
   end
 end
