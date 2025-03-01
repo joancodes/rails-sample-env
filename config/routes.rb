@@ -10,6 +10,12 @@ Rails.application.routes.draw do
     resources :items do
       resources :vat_rates
     end
+    resources :transactions do
+      resources :deals
+      collection do
+        get :summary # Route for the summary table
+      end
+    end
   end
 
   resources :answers
